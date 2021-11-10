@@ -24,7 +24,7 @@ namespace Service
 		}
 
 		[HttpPost, Route("api/document/merge")]
-		public IActionResult Merge(MergeRequest mergeRequest)
+		public IActionResult Merge([FromBody] MergeRequest mergeRequest)
 		{
 			using var outputStream = new MemoryStream();
 			using (var mergedDocument = new PdfDocument(new PdfWriter(outputStream)))
@@ -45,7 +45,7 @@ namespace Service
 		}
 
 		[HttpPost, Route("api/document/create")]
-		public async Task<IActionResult> Create(CreateRequest createRequest)
+		public async Task<IActionResult> Create([FromBody] CreateRequest createRequest)
 		{
 			await using var outputStream = new ByteArrayOutputStream();
 			try
@@ -63,7 +63,7 @@ namespace Service
 		}
 
 		[HttpPost, Route("api/document/parsefields")]
-		public IActionResult ParseFields(ParseFieldsRequest parseFieldsRequest)
+		public IActionResult ParseFields([FromBody] ParseFieldsRequest parseFieldsRequest)
 		{
 			var document = PdfUtilities.LoadPdf(Convert.FromBase64String(parseFieldsRequest.Base64Document));
 			var fields = PdfUtilities.ParseFields(document);
