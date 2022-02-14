@@ -1,4 +1,12 @@
 {
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost:9384/pdf-generator",
+      "sslPort": 0
+    }
+  },
   "profiles": {
     "Development": {
       "commandName": "Project",
@@ -14,6 +22,12 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/docs",
       "httpPort": "10001"
+    },
+    "IIS": {
+      "commandName": "IIS",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "IIS"
+      }
     }
   }
 }

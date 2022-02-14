@@ -30,7 +30,7 @@ services.AddSwaggerGen(c =>
 			app.UseSwaggerUI(options =>
 			{
 				options.RoutePrefix = "docs";
-				options.SwaggerEndpoint($"/swagger/v1/swagger.json", "pdf-generator V1".ToUpper());
+				options.SwaggerEndpoint($"../swagger/v1/swagger.json", "pdf-generator V1".ToUpper());
 			});
 			app.UseSerilogRequestLogging();
 			app.UseRouting();
