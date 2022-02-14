@@ -18,10 +18,10 @@ namespace Host
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
-services.AddSwaggerGen(c =>
-			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "pdf-generator", Version = "v1" });
-			});
+			services.AddSwaggerGen(c =>
+						{
+							c.SwaggerDoc("v1", new OpenApiInfo { Title = "pdf-generator", Version = "v1" });
+						});
 		}
 
 		public void Configure(IApplicationBuilder app)

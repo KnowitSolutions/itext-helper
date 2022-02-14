@@ -78,6 +78,16 @@ namespace Service
 			var form = PdfAcroForm.GetAcroForm(pdf, false);
 			var caseMap = form.GetFormFields().Keys.ToDictionary(
 				key => key.ToUpper(), key => key);
+
+
+			// Ensure no null-values in form fields.
+			// Makes Flattening sometimes crash for some reason
+			foreach (var field in form.GetFormFields().Select(x => x.Key))
+			{
+				if (form.GetField(field).GetValue() == null)
+					form.GetField(field).SetValue(string.Empty);
+			}
+
 			foreach (var global in loadPdfRequest.Globals)
 			{
 				if (caseMap.TryGetValue(global.Item1.Name.ToUpper(), out var field))
