@@ -27,7 +27,7 @@ namespace Service
 		public IActionResult Merge([FromBody] MergeRequest mergeRequest)
 		{
 			using var outputStream = new MemoryStream();
-			using (var mergedDocument = new PdfDocument(new PdfWriter(outputStream)))
+			using (var mergedDocument = new PdfDocument(new PdfWriter(outputStream, new WriterProperties().SetFullCompressionMode(true).UseSmartMode())))
 			{
 				var merger = new PdfMerger(mergedDocument);
 				merger.SetCloseSourceDocuments(true);
