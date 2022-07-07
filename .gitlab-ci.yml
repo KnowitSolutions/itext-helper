@@ -31,13 +31,13 @@ Build Executable:
 
 Integration tests:
   extends: .dotnet-test
-  needs: [Build]
+  needs: [Build Executable]
   variables:
     PROJECT_PATH: Tests.IntegrationTests
 
 Unit tests:
   extends: .dotnet-test
-  needs: [Build]
+  needs: [Build Executable]
   variables:
     PROJECT_PATH: Tests.UnitTests
 
