@@ -34,7 +34,7 @@ Unit tests:
 Publish to octopus:
   extends: .dotnet-octo-pack
   dependencies: [Build]
-  needs: [Build, Integration Test, Unit Test]
+  needs: [Build, Integration tests, Unit tests]
   variables:
     OCTOPUS_ADDRESS: $OCTOPUS_NUGET_ADDRESS
     OCTOPUS_API_KEY: $OCTOPUS_API_KEY
