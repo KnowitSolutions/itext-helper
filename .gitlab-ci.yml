@@ -14,10 +14,16 @@ variables:
   VERSION: 1.0.$CI_PIPELINE_IID
   DOTNET_VERSION: '3.1'
 
-Build:
+Build Image:
   extends: .kaniko-build
   variables:
     DOCKERFILE: 'Host/Dockerfile'
+
+Build Executable:
+  extends: .dotnet-publish
+  variables:
+    PROJECT_PATH: Host
+    RUNTIME: win-x64
 
 Integration tests:
   extends: .dotnet-test
@@ -33,8 +39,8 @@ Unit tests:
 
 Publish to octopus:
   extends: .dotnet-octo-pack
-  dependencies: [Build]
-  needs: [Build, Integration tests, Unit tests]
+  dependencies: [Build Executable]
+  needs: [Build Executable, Integration tests, Unit tests]
   variables:
     OCTOPUS_ADDRESS: $OCTOPUS_NUGET_ADDRESS
     OCTOPUS_API_KEY: $OCTOPUS_API_KEY
