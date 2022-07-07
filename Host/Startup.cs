@@ -18,10 +18,10 @@ namespace Host
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
-services.AddSwaggerGen(c =>
-			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "pdf-generator", Version = "v1" });
-			});
+			services.AddSwaggerGen(c =>
+						{
+							c.SwaggerDoc("v1", new OpenApiInfo { Title = "pdf-generator", Version = "v1" });
+						});
 		}
 
 		public void Configure(IApplicationBuilder app)
@@ -30,7 +30,7 @@ services.AddSwaggerGen(c =>
 			app.UseSwaggerUI(options =>
 			{
 				options.RoutePrefix = "docs";
-				options.SwaggerEndpoint($"/swagger/v1/swagger.json", "pdf-generator V1".ToUpper());
+				options.SwaggerEndpoint($"../swagger/v1/swagger.json", "pdf-generator V1".ToUpper());
 			});
 			app.UseSerilogRequestLogging();
 			app.UseRouting();
