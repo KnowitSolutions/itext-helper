@@ -119,12 +119,14 @@ namespace Service
 
 						Image image = new Image(imageData);
 						image.SetMaxHeight(height);
+
 						image.SetMaxWidth(width);
 						image.SetFixedPosition((float)fieldPlacement.GetAsNumber(0).GetValue(), (float)fieldPlacement.GetAsNumber(1).GetValue());
 						iText.Layout.Document doc = new iText.Layout.Document(pdf);
 						doc.Add(image);
 					}
-					form.GetField(loadPdfRequest.Mappings[index].Field).SetValue(values[index].Values[0].Text);
+					if (values[index].Values[0].Text != null)
+						form.GetField(loadPdfRequest.Mappings[index].Field)?.SetValue(values[index].Values[0].Text);
 				}
 				catch (Exception)
 				{
