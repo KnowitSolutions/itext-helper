@@ -1,7 +1,7 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS vs-containerfastmode
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS vs-containerfastmode
 
-FROM mcr.microsoft.com/dotnet/sdk:3.1 AS builder
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS builder
 WORKDIR /src
 COPY ["Host/Host.csproj", "Host/"]
 COPY ["Service/Service.csproj", "Service/"]
