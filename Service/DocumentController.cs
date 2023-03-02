@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,8 @@ using Contracts;
 using iText.Forms;
 using iText.IO.Image;
 using iText.IO.Source;
+using iText.Kernel.Font;
+
 using iText.Kernel.Pdf;
 using iText.Kernel.Utils;
 using iText.Layout.Element;
@@ -124,8 +127,39 @@ namespace Service
 						image.SetFixedPosition((float)fieldPlacement.GetAsNumber(0).GetValue(), (float)fieldPlacement.GetAsNumber(1).GetValue());
 						iText.Layout.Document doc = new iText.Layout.Document(pdf);
 						doc.Add(image);
+					}						
+
+
+					//User defined font and fontsize.
+					if (values[index].Values[0].Font != null)
+					{
+						string fontFamily = loadPdfRequest.Values[index].Values[0].Font;
+						string fontPath = $"C:\\Windows\\Fonts\\{fontFamily}.ttf";
+						PdfFont pdfFont = null;
+						try
+						{
+							if (PdfFontFactory.IsRegistered(fontFamily))
+							{
+								pdfFont = PdfFontFactory.CreateRegisteredFont(fontFamily);
+							}
+							else if (System.IO.File.Exists(fontPath))
+							{
+								PdfFontFactory.Register(fontPath, fontFamily);
+								pdfFont = PdfFontFactory.CreateRegisteredFont(fontFamily);
+							}
+						}
+
+						catch (Exception e)
+						{
+							Debug.WriteLine(e);
+							_logger.LogWarning($"Font \"{fontFamily}\" not found, Using default PDF font instead");
+						}
+
+						form.GetField(loadPdfRequest.Mappings[index].Field)?.SetValue(values[index].Values[0].Text, pdfFont, loadPdfRequest.Values[index].Values[0].FontSize);
 					}
-					if (values[index].Values[0].Text != null)
+
+					// No font found, using default font size and : 
+					else if (values[index].Values[0].Text != null)
 						form.GetField(loadPdfRequest.Mappings[index].Field)?.SetValue(values[index].Values[0].Text);
 				}
 				catch (Exception)
