@@ -79,21 +79,24 @@ namespace Service
 
 			//Applies global mappings first and then the local mappings
 			var form = PdfAcroForm.GetAcroForm(pdf, false);
-			var caseMap = form.GetFormFields().Keys.ToDictionary(
+			var caseMap = form?.GetFormFields().Keys.ToDictionary(
 				key => key.ToUpper(), key => key);
 
 
 			// Ensure no null-values in form fields.
 			// Makes Flattening sometimes crash for some reason
-			foreach (var field in form.GetFormFields().Select(x => x.Key))
+			if (form != null)
 			{
-				if (form.GetField(field).GetValue() == null)
-					form.GetField(field).SetValue(string.Empty);
+				foreach (var field in form.GetFormFields().Select(x => x.Key))
+				{
+					if (form.GetField(field).GetValue() == null)
+						form.GetField(field).SetValue(string.Empty);
+				}
 			}
-
+			
 			foreach (var global in loadPdfRequest.Globals)
 			{
-				if (caseMap.TryGetValue(global.Item1.Name.ToUpper(), out var field))
+				if (caseMap != null && caseMap.TryGetValue(global.Item1.Name.ToUpper(), out var field))
 				{
 					var decodedImage = Convert.FromBase64String(global.Item2.Values.First().Base64Image);
 					if (decodedImage.Length > 0)
